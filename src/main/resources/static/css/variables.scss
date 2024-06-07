@@ -1,0 +1,120 @@
+@import '../bootstrap-5.3.2/bootstrap-5.3.2/scss/bootstrap.scss';
+
+$green-p : rgb(15,105,44); // Verde Primário
+$green-s : rgb(8,96,36); // Verde Secundário
+$light-gray : #EEEFF1;
+
+td,th {
+	text-align: center;
+	@extend .fs-5;
+}
+
+.bg-green {
+	background-color: $green-p;
+}
+
+.bg-light-gray {
+	background-color: $light-gray;
+}
+
+.btn-green:hover {
+	background-color: $green-s;
+}
+
+.top-green {
+	border-top: 2px solid $green-p;
+}
+
+.text-green {
+	color: $green-p;
+}
+
+.btn-green {
+	@extend .btn;
+	@include button-variant($green-p, $green-p);
+	font-size: 1.2rem;
+}
+
+.btn-outline-green {
+	@extend .btn-green;
+}
+
+.table-light-gray {
+	--bs-table-bg: $light-gray;
+	@extend .table;
+	@extend .table-borderless;
+}
+
+.label-primary {
+	@extend .form-label;
+	@extend .fs-5;
+}
+
+.input-primary {
+	@extend .form-control;
+}
+
+.select-primary {
+	@extend .form-select;
+}
+
+.checkbox-primary {
+	@extend .form-check-input;
+	@extend .fs-5;
+}
+
+.list-group-gray {
+	--bs-list-group-bg: $light-gray;
+	--bs-list-group-border-color: $light-gray;
+	@extend .list-group;
+}
+
+.list-item-primary {
+	@extend .list-group-item;
+	@extend .d-flex;
+	@extend .justify-content-between;
+}
+
+.header-style {
+	@extend .mb-4;
+	@extend .text-green;
+}
+
+.card-primary {
+	@extend .container;
+	@extend .container-fluid;
+	@extend .bg-light-gray;
+	@extend .top-green;
+	@extend .my-4;
+	@extend .py-4;
+	@extend .px-4;
+}
+
+.danger-show {
+	@extend .bg-danger;
+	@extend .text-white;
+	@extend .text-center;
+	@extend .px-2;
+	@extend .py-1;
+	@extend .my-2;
+	@extend .col-sm-2;
+}
+
+.success-show {
+	@extend .bg-success;
+	@extend .text-white;
+	@extend .text-center;
+	@extend .px-2;
+	@extend .py-1;
+	@extend .my-2;
+	@extend .col-sm-5;
+	border-radius: 2px;
+	height: fit-content;
+}
+
+.form-primary {
+	@extend .d-flex;
+	@extend .flex-column;
+	@extend .gap-3;
+	@extend .ms-1;
+}

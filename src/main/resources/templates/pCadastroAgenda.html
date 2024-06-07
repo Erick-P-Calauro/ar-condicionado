@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymemeaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Agendas</title>
+		<link rel="shortcut icon" th:href="@{/assets/iflogo.jpg}" type="image/x-icon">
+		<link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/css/variables.css}">
+	</head>
+	<body>
+		<div th:replace="~{fragmentos/header :: header_fragment}"></div>
+
+    	<div th:replace="~{fragmentos/nav :: nav_fragment}"></div>
+    	
+		<section class="card-primary">
+			<header class="mb-4">
+				<h2 class="text-green">Cadastro de Agenda</h2>
+			</header>
+
+			<form th:action="@{/cadastro/salvarAgenda/}" th:object="${agenda}" method="post"
+			class="form-primary">
+				<div class="col-sm-3">
+					<label class="label-primary">Descrição</label>
+					<input class="input-primary" type="text" th:field="*{descricao}">
+				</div>
+				
+				<div class="col-sm-3">
+					<label class="label-primary">Ativo</label>
+					<input class="checkbox-primary" type="checkbox" id="btncheck1" th:field="*{ativo}">
+				</div>
+					
+				<div class="col-sm-3">
+					<label class="label-primary">Hora</label>
+					<input class="input-primary" type="number" th:field="*{hora}">
+	
+					<label class="label-primary">Minuto</label>
+					<input class="input-primary" type="number" th:field="*{minuto}">
+				</div>
+				
+				<div class="col-sm-3">
+					<label class="label-primary">Tipo do Comando</label>
+					<select th:field="*{tipoComando}" class="select-primary">
+						<option th:each="tipo : ${tiposComando}" th:value="${tipo.uid}" th:text="${tipo.nome}"></option>
+					</select>
+				</div>
+				
+				<div>
+					<div class="d-flex align-items-center gap-2 col-sm-2">
+						<input type="radio" class="form-check-input" name="escolha" id="escolha_1" onclick="acionarDia()"/>
+						<label class="label-primary">Dia</label>
+						<input disabled id="input_1" class="input-primary" type="number" th:field="*{dia}" >
+					</div>
+					
+					<div class="d-flex align-items-center gap-2 col-sm-2">
+						<input type="radio" class="form-check-input" name="escolha" id="escolh_2" onclick="acionarDiaSemana()"/>
+						<label class="label-primary">Dia da Semana</label>
+						<input disabled id="input_2" class="input-primary" type="number" th:field="*{diaSemana}">
+					</div>
+				</div>
+				
+				
+				<header class="mb-3">
+					<h2 class="text-green">Equipamentos</h2>
+				</header>
+				
+				<div>
+					<!-- Lista de Blocos -->
+					<ul class="list-group-gray" th:each="bloco : ${blocos}">
+						<!-- Bloco x -->
+						<li class="list-item-primary">
+							<span class="fs-3" th:text="Bloco + ' ' + ${bloco}"></span>
+							<div class="col-sm-1">
+								<a data-bs-toggle="collapse" th:attr="data-bs-target=${'#' + bloco}">
+									<span class="btn-outline-green" data-bs-toggle="button">+</span> 
+								</a>
+							</div>
+						</li>
+
+						<!-- Salas que estão no bloco x -->
+						<ul class="collapse list-group-gray" th:id="${bloco}" th:each="sala : ${salas}" th:if="${sala.bloco == bloco}">
+							<li class="list-group-item mx-3 ps-3 list-item-primary">
+								<span class="fs-4" th:text="${sala.nome}"></span>
+								<div class="col-sm-1">
+									<a data-bs-toggle="collapse" th:attr="data-bs-target=${'#' + sala.nome}" >
+										<span class="btn-outline-green" data-bs-toggle="button">+</span> 
+									</a>
+								</div>
+							</li>
+							
+							<!-- Equipamentos que estão na sala x-->
+							<ul class="collapse list-group-gray" th:id="${sala.nome}" th:each="equipamento : ${equipamentos}" th:if="${equipamento.sala == sala}">
+								<li class="mx-5 ps-3 list-item-primary">
+									<div class="col-sm-1 d-flex text-center gap-2">
+										<input class="checkbox-primary" type="checkbox" th:field="*{equipamentos}" th:value="${equipamento.id}">
+										<span class="fs-5" th:text="${equipamento.macaddr.ip}"></span>
+									</div>
+								</li>
+							</ul>
+						</ul>
+					</ul>
+				</div>
+				
+				<input class="btn-green mt-3 col-sm-2" type="submit" value="Enviar">
+				
+			</form>
+		</section>
+
+		<div class="card-primary table-responsive">
+			<table class="table-light-gray">
+				<header>
+					<h2 class="text-green">Agendas</h2>
+				</header>
+
+				<thead>
+					<tr>
+						<th>Descrição</th>
+						<th>Ativo</th>
+						<th>Horário</th>
+						<th>Dia</th>
+						<th>Dia da Semana</th>
+						<th>Tipo do Comando</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="agenda : ${agendas}">
+						<td th:text="${agenda.descricao}"></td>
+						<td th:text="${agenda.ativo}"></td>
+						<td th:text="${agenda.hora} + ':' + ${agenda.minuto}"></td>
+						<td th:if="${agenda.dia != -1}" th:text="${agenda.dia}"></td>
+						<td th:if="${agenda.dia == -1}" th:text="Vazio"></td>
+						<td th:if="${agenda.diaSemana != -1}" th:text="${agenda.diaSemana}"></td>
+						<td th:if="${agenda.diaSemana == -1}" th:text="Vazio"></td>
+						<td th:text="${agenda.tipoComando.nome}"></td>
+						<td>
+							<a th:href="@{/cadastro/apagarAgenda/{id}(id=${agenda.id})}"
+								th:data-confirm-delete="|Você gostaria de apagar a agenda ${agenda.id}?|"
+								onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" class="btn btn-danger">Apagar
+                    		</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+    	
+    	<div th:replace="~{fragmentos/footer :: footer_fragment}"></div>
+    	
+    	<script th:src="@{/javascript/formAgenda.js}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+	</body>
+</html>

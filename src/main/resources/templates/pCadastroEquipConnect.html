@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Equipamento</title>
+	<link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="shortcut icon" th:href="@{/assets/iflogo.jpg}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/variables.css}">
+</head>
+<body>
+	<div th:replace="~{fragmentos/header :: header_fragment}"></div>
+
+    <div th:replace="~{fragmentos/nav :: nav_fragment}"></div>
+
+	<section class="card-primary">
+		<header class="header-style">
+			<h2 class="text-green">Lista de Dispositivos</h2>
+		</header>
+
+		<div class="table-responsive">
+			<table class="table-light-gray">
+				<thead>
+					<tr>
+						<th>Endereço MAC</th>
+						<th>Endereço IP</th>
+						<th>Conexão</th>
+						<th>Status</th>
+						<th>Sala</th>
+						<th>Modelo</th>
+						<th>Descrição</th>
+						<th colspan="2"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="e : ${equipConnects}">
+						<td th:text="${e.endereco}"></td>
+						<td th:text="${e.ip}"></td>
+						
+						<td th:if="${e.status == true}" th:text="Online"></td>
+						<td th:if="${e.status == false}" th:text="Offline"></td>
+						
+						<td th:if="${e.equipamento == null}" th:text="Disponível"></td>
+						<td th:if="${e.equipamento != null}" th:text="Cadastrado"></td>
+						
+						<div th:if="${e.equipamento != null}">
+							<td th:text="${e.equipamento.sala.nome}"></td>
+							<td th:text="${e.equipamento.modelo.nome}"></td>
+	
+							<td th:if="${e.equipamento.descricao != ''}" th:text="${e.equipamento.descricao}"></td>
+							<td th:unless="${e.equipamento.descricao != ''}">Sem descrição</td>
+							<td th:if="${e.equipamento != null}">
+								<a th:href="@{/cadastro/editarEquipamento/{id}(id=${e.equipamento.id})}" class="btn btn-primary">
+									Editar
+								</a>
+								<a th:href="@{/cadastro/apagarEquipamento/{id}(id=${e.equipamento.id})}"
+									th:data-confirm-delete="|Você gostaria de apagar o equipamento ${equipamento.id}?|"
+									onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" class="btn btn-danger">Apagar
+								</a>
+							</td>
+						</div>
+	
+						<div th:unless="${e.equipamento != null}">
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td th:if="${e.equipamento == null}">
+								<a class="btn-green" th:href="@{/cadastro/salvarEquipamento/{endereco}(endereco=${e.endereco})}">Cadastrar</a>
+							</td>
+						</div>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+	    
+	<div th:replace="~{fragmentos/footer :: footer_fragment}"></div>
+</body>
+</html>

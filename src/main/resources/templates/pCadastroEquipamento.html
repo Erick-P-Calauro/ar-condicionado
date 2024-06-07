@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Equipamentos</title>
+    <link rel="shortcut icon" th:href="@{/assets/iflogo.jpg}" type="image/x-icon">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/variables.css}">
+</head>
+<body>
+    <div th:replace="~{fragmentos/header :: header_fragment}"></div>
+
+    <div th:replace="~{fragmentos/nav :: nav_fragment}"></div>
+	
+	<section class="card-primary d-flex flex-column ">
+		
+		<header class="header-style">
+			<h2 class="text-green">Cadastro de Equipamentos</h2>
+		</header>
+
+		<form class="form-primary col-sm-3" th:action="${equipamento.id == null}? @{/cadastro/salvarEquipamento} : @{/cadastro/editarEquipamento/{id}(id=${equipamento.id})}" th:object="${equipamento}" method="post" >
+	        <div class="form-div-primary">
+	            <label class="label-primary">Sala</label>
+				<select class="select-primary" th:field="*{sala}">
+					<option th:each="sala : ${salas}" th:value="${sala.id}" th:text="${sala.nome}"></option>
+				</select>
+	        </div>
+	        <div class="form-div-primary">
+	            <label class="label-primary">Modelo</label>
+				<select class="select-primary" th:field="*{modelo}">
+					<option th:each="modelo : ${modelos}" th:value="${modelo.id}" th:text="${modelo.nome}"></option>
+				</select>
+	        </div>
+	        <div class="form-div-primary">
+	            <label class="label-primary">MAC</label>
+				<select class="select-primary" th:field="*{macaddr}">
+					<option th:text="${equipamento.macaddr.endereco}" th:value="${equipamento.macaddr.id}"></option>
+				</select>
+	        </div>
+	        <div class="form-div-primary">
+	            <label class="label-primary">Descrição</label>
+				<input class="input-primary" type="text" placeholder="Perto da mesa do professor." size="50" th:field="*{descricao}">
+
+				<span class="bg-danger px-1 py-1 text-white fit" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
+	        </div>
+	
+	        <input class="btn-green" type="submit" value="Gravar">
+	    </form>
+	</section>
+
+    <div th:replace="~{fragmentos/footer :: footer_fragment}"></div>
+</body>
+</html>

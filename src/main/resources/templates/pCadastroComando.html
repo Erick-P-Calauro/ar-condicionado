@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comandos</title>
+    <link rel="shortcut icon" th:href="@{/assets/iflogo.jpg}" type="image/x-icon">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/variables.css}">
+</head>
+<body>
+    <div th:replace="~{fragmentos/header :: header_fragment}"></div>
+
+    <div th:replace="~{fragmentos/nav :: nav_fragment}"></div>
+
+    <section class="card-primary">
+        <header class="header-style">
+            <h2 class="text-green">Cadastro de Comandos</h2>
+        </header>
+
+        <form class="form-primary col-sm-3" th:action="${comando.id == null}? @{/cadastro/salvarComando} : @{/cadastro/editarComando/{id}(id=${comando.id})}" th:object="${comando}" method="post">
+            <div class="">
+                <label class="label-primary">Nome </label>
+                <input class="input-primary" type="text" placeholder="Arno L20" th:field="*{nome}">
+    
+                <span class="danger-show" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+            </div>
+            
+            <div class="">
+                <label class="label-primary">Tipo do Comando</label>
+                <select class="select-primary" th:field="*{tipoComando}">
+                    <option th:each="tipo : ${tiposComando}" th:value="${tipo.uid}" th:text="${tipo.nome}"></option>
+                </select>
+            </div>
+            
+            <div class="">
+                <label class="label-primary">Comando RAW </label>
+                <input class="input-primary" type="text" placeholder="9074, 4462,  582, 1664,  582, 1664,  582, 526,  582, 526,  582, 526,  584, 526,  582, 1664,  582, 1664,  582, 1662,  582, 1664,  582, 1662,  582, 526,  582, 1664,  582, 1664,  582, 1664,  582, 526,  582, 526,  582, 528,  582, 528,  582, 526,  582, 526,  582, 1664,  582, 1664,  582, 1664,  582, 526,  582, 526,  582, 526,  582, 528,  582, 526,  582, 528,  582, 528,  582, 528,  582, 528,  582, 528,  582, 526,  582, 528,  580, 528,  580, 1666,  580, 528,  580, 528,  580, 552,  558, 528,  582, 528,  582, 552,  556, 530,  580, 552,  558, 1688,  558, 552,  558, 552,  556, 552,  558, 552,  556, 552,  556, 552,  558, 1688,  558, 552,  556, 552,  556, 552,  558, 552,  558, 552,  558, 552,  556, 552,  558, 552,  556, 552,  558, 552,  556, 552,  558, 552,  556, 552,  558, 552,  558, 552,  556, 552,  556, 552,  556, 552,  558, 552,  556, 552,  556, 552,  556, 552,  556, 552,  556, 1688,  556, 552,  556, 552,  556, 554,  556, 554,  556, 552,  556, 554,  556, 554,  556, 554,  556, 554,  556, 554,  556, 552,  556, 552,  556, 554,  556, 554,  556, 552,  556, 552,  556, 554,  556, 554,  556, 554,  556, 1690,  556, 554,  556, 1690,  554, 1690,  556, 1690,  556, 554,  556, 1690,  556" 
+                th:field="*{raw}">
+    
+                <span class="danger-show" th:if="${#fields.hasErrors('raw')}" th:errors="*{raw}"></span>
+            </div>
+            
+            <div class="">
+                <label class="label-primary">Comando Hexadecimal </label>
+                <input class="input-primary" type="text" placeholder="0xC36FE0002040200000200000B2" th:field="*{hexadecimal}">
+    
+                <span class="danger-show" th:if="${#fields.hasErrors('hexadecimal')}" th:errors="*{hexadecimal}"></span>
+            </div>
+                
+            <div class="">
+                <label class="label-primary">Modelo </label>
+                <select class="select-primary" th:field="*{modelo}">
+                    <option th:each="modelo : ${modelos}" th:value="${modelo.id}" th:text="${modelo.nome}" ></option>
+                </select>
+            </div>
+    
+            <div class="danger-show" th:if="${mensagemErro}">
+                <span class="text-white" th:text="${mensagemErro}"></span>
+            </div>
+    
+            <input class="btn-green" type="submit" value="Gravar">
+        </form>
+    </section>
+    
+    <section class="card-primary">
+
+        <header class="header-style">
+            <h2 class="text-green">Comandos</h2>
+        </header>
+
+        <div class="table-responsive">
+            <table class="table-light-gray">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RAW</th>
+                        <th>Hexadecimal</th>
+                        <th>Modelo</th>
+                        <th colspan="2">Botões</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="comando : ${comandos}">
+                        <td><span th:text="${comando.nome}"></span></td>
+                        <td>
+                            <span th:if="${comando.raw.length < 50}" th:text="${comando.raw}"></span>
+                            <span th:unless="${comando.raw.length < 50}" th:text="${comando.raw.substring(0,11)}+'...'"></span>
+                        </td>
+                        <td><span th:text="${comando.hexadecimal}"></span></td>
+                        <td><span th:text="${comando.modelo.nome}"></span></td>
+                        <td>
+                        <a th:href="@{/cadastro/editarComando/{id}(id=${comando.id})}" class="btn btn-primary">
+                            Editar
+                        </a>
+                        <a th:href="@{/cadastro/apagarComando/{id}(id=${comando.id})}"
+                            th:data-confirm-delete="|Você gostaria de apagar o comando ${comando.id}?|"
+                            onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" class="btn btn-danger">Apagar
+                        </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div th:replace="~{fragmentos/footer :: footer_fragment}"></div>
+</body>
