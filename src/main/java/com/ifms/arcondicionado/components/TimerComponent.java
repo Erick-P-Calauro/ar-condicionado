@@ -10,21 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.ifms.arcondicionado.modelos.Agenda;
-import com.ifms.arcondicionado.modelos.EquipConnect;
+import com.ifms.arcondicionado.modelos.Microcontrolador;
 import com.ifms.arcondicionado.servicos.AgendaService;
-import com.ifms.arcondicionado.servicos.EquipConnectService;
-
+import com.ifms.arcondicionado.servicos.MicrocontroladorService;
 import jakarta.transaction.Transactional;
 
-/**
- * Classe que tem como objetivo realizar a verificação do horário atual e servir
- * como base para as funcionalidades de agenda de comandos e ping de microcontroladores
- * 
- * <p>@CommandLineRunner : disponibiliza função que é executada antes do resto do sistema.</p>
- * 
- * @since Release 1.0
- * @version 1.0
- * */
 @Component
 @Transactional
 public class TimerComponent implements CommandLineRunner{
@@ -33,13 +23,8 @@ public class TimerComponent implements CommandLineRunner{
 	AgendaService agendaService;
 	
 	@Autowired
-	EquipConnectService macService;
-	
-	/**
-	 * <p>Método principal que é executado antes do resto do sistema</p>
-	 * 
-	 * <p>Implementa um contador programado para executar um trecho de código de minuto em minuto</p>
-	 * */
+	MicrocontroladorService macService;
+
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -59,19 +44,6 @@ public class TimerComponent implements CommandLineRunner{
 		
 	}
 	
-	/**
-	 * Verifica se uma entidade agenda deve ser executada (considerando dia do mês ou dia da semana, hora e minuto.)
-	 * 
-	 * @param agenda
-	 *	Recebe uma entidade agenda para verificação
-	 * 
-	 * @return 
-	 * <p>True se o comando da agenda deve ser executado</p>
-	 * <p>False se o comando da agenda não deve ser executado</p>
-	 * 
-	 * @since Release 1.0
-	 * @version 1.0
-	 * */
 	public boolean verificarAgenda(Agenda agenda) {
 		
 		List<Integer> info = informarDataHora();
@@ -94,21 +66,6 @@ public class TimerComponent implements CommandLineRunner{
 		
 	}
 	
-	/**
-	 * Método responsável por reunir informações de dia, hora, minuto e dia da semana.
-	 * 
-	 * @return
-	 * Retorna uma Lista com os seguintes elementos :
-	 * <ul>
-		 * 	<li>int data (Dia do mês)</li>
-		 * <li>int hora</li>
-		 * <li>int minuto</li>
-		 * <li>int dia da semana (1-Domingo, 2-Segunda, 3-Terça, 4-Quarta, 5-Quinta, 6-Sexta, 7-Sábado)</li>
-	 * </ul>
-	 * 
-	 * @since Release 1.0
-	 * @version 1.0
-	 * */
 	public List<Integer> informarDataHora() {
 		
 		int data = LocalDate.now().getDayOfMonth();
@@ -155,11 +112,6 @@ public class TimerComponent implements CommandLineRunner{
 		
 	}
 	
-	/**
-	 * Método responsável por executar os comandos das agendas
-	 * <p>Ainda em implementação</p>
-	 * */
-	// Arrumar função de executarAgendamentos
 	public void agendar() {
 		List<Agenda> agendas = agendaService.buscarAgendas();
 		List<Integer> horario = informarDataHora();
@@ -193,16 +145,9 @@ public class TimerComponent implements CommandLineRunner{
 			}
 		}
 	}
-	
-	/**
-	 * Método responsável por transformar os status de todos os equipamentos em false
-	 * <p>Serve para verificar se os microcontroladores estão 'vivos'</p>
-	 * 
-	 * @since Release 1.0
-	 * @version 1.0
-	 * */
+
 	public void resetarStatus() {
-		for(EquipConnect i : macService.buscarEquipConnects()) {
+		for(Microcontrolador i : macService.buscarEquipConnects()) {
 			i.setStatus(false);
 			macService.salvarEquipConnect(i);
 		}

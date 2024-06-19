@@ -12,7 +12,7 @@ public class Registro {
     private Long id;
 
     @ManyToOne
-    private EquipConnect equipamento;
+    private Microcontrolador equipamento;
 
     @Size(max=3000)
     private String conteudo;
@@ -23,14 +23,14 @@ public class Registro {
 
     }
 
-    public Registro(Long id, EquipConnect equipamento, String conteudo, String dataRegistro) {
+    public Registro(Long id, Microcontrolador equipamento, String conteudo, String dataRegistro) {
         this.id = id;
         this.equipamento = equipamento;
         this.conteudo = conteudo;
         this.dataRegistro = dataRegistro;
     }
 
-    public Registro(EquipConnect equipamento, String conteudo, String dataRegistro) {
+    public Registro(Microcontrolador equipamento, String conteudo, String dataRegistro) {
         this.equipamento = equipamento;
         this.conteudo = conteudo;
         this.dataRegistro = dataRegistro;
@@ -44,11 +44,11 @@ public class Registro {
         this.id = id;
     }
 
-    public EquipConnect getEquipamento() {
+    public Microcontrolador getEquipamento() {
         return equipamento;
     }
 
-    public void setEquipamento(EquipConnect equipamento) {
+    public void setEquipamento(Microcontrolador equipamento) {
         this.equipamento = equipamento;
     }
 

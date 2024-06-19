@@ -34,8 +34,8 @@
 				</thead>
 				<tbody>
 					<tr th:each="e : ${equipConnects}">
-						<td th:text="${e.endereco}"></td>
-						<td th:text="${e.ip}"></td>
+						<td th:text="${e.macAddress}"></td>
+						<td th:text="${e.ipv4}"></td>
 						
 						<td th:if="${e.status == true}" th:text="Online"></td>
 						<td th:if="${e.status == false}" th:text="Offline"></td>

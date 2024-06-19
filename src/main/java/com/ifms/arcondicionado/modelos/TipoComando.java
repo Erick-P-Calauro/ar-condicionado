@@ -10,13 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Entidade responsável por armazenar os tipos de comandos registrados
- * <p>Os tipos de comandos são, por exemplo, ligar em 20°C, desligar, ligar em 25°C...</p>
- * 
- * @since Release 1.0
- * @version 1.0
- * */
 @Entity
 public class TipoComando {
 	

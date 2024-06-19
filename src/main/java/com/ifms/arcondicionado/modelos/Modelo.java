@@ -5,12 +5,6 @@ import jakarta.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Entidade responsável por armazenar os modelos dos equipamentos atribuidos aos microcontroladores
- * 
- * @since Release 1.0
- * @version 1.0
- * */
 @Entity
 public class Modelo {
     @Id

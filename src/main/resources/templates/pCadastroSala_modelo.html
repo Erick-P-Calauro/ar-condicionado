@@ -71,11 +71,11 @@
     </section>
     
     <section class="card-primary">
-        <header class="header-style">
+        <header th:if="${modelos.size != 0}" class="header-style">
             <h2 class="text-green">Modelos</h2>
         </header>
 
-        <div class="table-responsive">
+        <div th:if="${modelos.size != 0}" class="table-responsive">
             <table class="table-light-gray">
                 <thead>
                     <tr>
@@ -102,11 +102,11 @@
             </table>
         </div>
 
-        <header class="header-style">
+        <header th:if="${salas.size != 0}" class="header-style">
             <h2 class="text-green">Salas</h2>
         </header>
 
-        <div class="table-responsive">
+        <div th:if="${salas.size != 0}" class="table-responsive">
             <table class="table-light-gray">
                 <thead>
                     <tr>

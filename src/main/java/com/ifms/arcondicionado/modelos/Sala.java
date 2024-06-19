@@ -5,12 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
-/**
- * Entidade responsável por armazenar as salas nas quais poderão estar os microcontroladores
- * 
- * @since Release 1.0
- * @version 1.0
- * */
 @Entity
 public class Sala {
     @Id

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifms.arcondicionado.modelos.Equipamento;
 import com.ifms.arcondicionado.servicos.EquipamentoService;
-import com.ifms.arcondicionado.servicos.EquipConnectService;
+import com.ifms.arcondicionado.servicos.MicrocontroladorService;
 import com.ifms.arcondicionado.servicos.ModeloService;
 import com.ifms.arcondicionado.servicos.SalaService;
 import jakarta.validation.Valid;
@@ -30,17 +30,17 @@ public class EquipamentoController {
 	ModeloService modeloService;
 	
 	@Autowired
-	EquipConnectService macAddrService;
+	MicrocontroladorService macAddrService;
 	
 	@GetMapping("/equipamento")
-    String pCadastroEquipConnect(Model model) {
+    String pCadastroMicrocontrolador(Model model) {
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("equipamentos", equipamentoService.buscarEquipamentos());
         model.addAttribute("salas", salaService.buscarSalas());
         model.addAttribute("modelos", modeloService.buscarModelos());
         model.addAttribute("equipConnects", macAddrService.buscarEquipConnects());
         
-        return "pCadastroEquipConnect";
+        return "pCadastroMicrocontrolador";
     }
 	
 	@GetMapping("/salvarEquipamento/{endereco}")

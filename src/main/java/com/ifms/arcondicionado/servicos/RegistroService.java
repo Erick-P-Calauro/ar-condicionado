@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ifms.arcondicionado.modelos.Registro;
-import com.ifms.arcondicionado.repositorios.RegistroRepositorio;
+import com.ifms.arcondicionado.repositorios.RegistroRep;
 
 @Service
 public class RegistroService {
     
     @Autowired
-    RegistroRepositorio repositorio;
+    RegistroRep repositorio;
 
     public void salvar(Registro registro) {
         long entidades = repositorio.count();

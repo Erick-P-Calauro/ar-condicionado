@@ -13,12 +13,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Entidade responsável por armazenar comandos que devem ser executados em determinada data / hora.
- * 
- * @since Release 1.0
- * @version 1.0
- * */
 @Entity
 public class Agenda {
 
@@ -28,9 +22,6 @@ public class Agenda {
 	
 	private String descricao;
 	
-	/**
-	 * Serve para indicar se a agenda armazenada deve ou não ser executada não importante se sua data / hora sejam válidos.
-	 * */
 	@NotNull
 	private Boolean ativo;
 	
@@ -46,20 +37,12 @@ public class Agenda {
 	// 1 a 7 = domingo a sexta, 0 = todos
 	private int diaSemana;
 	
-	/**
-	 * Para cada instância de agenda são atribuídos uma lista de equipamentos nos quais serão executados os comandos
-	 * contemplados pela agenda.
-	 * */
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "agenda_equipamento", 
 			joinColumns=@JoinColumn(name="agenda_id"),
 			inverseJoinColumns=@JoinColumn(name="equipamento_id"))
 	private List<Equipamento> equipamentos;
 	
-	/**
-	 * É atribuido apenas o tipo do comando e não o comando em si pois a lista de equipamentos de cada agenda
-	 * pode conter equipamentos com comandos diferentes e de modelos diferentes.
-	 * */
 	@ManyToOne
 	private TipoComando tipoComando;
 	

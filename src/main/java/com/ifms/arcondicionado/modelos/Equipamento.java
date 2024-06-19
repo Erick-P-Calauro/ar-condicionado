@@ -5,12 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/**
- * Entidade que representa os microcontroladores após o cadastro no sistema
- * 
- * @since Release 1.0
- * @version 1.0
- * */
 @Entity
 public class Equipamento {
     @Id
@@ -19,18 +13,12 @@ public class Equipamento {
     
     @NotNull
     @OneToOne
-    private EquipConnect macaddr;
+    private Microcontrolador microcontrolador;
 
-    /**
-     * Cada microcontrolador representa apenas um equipamento que por sua vez tem apenas um modelo
-     * */
     @ManyToOne
     @JoinColumn(name="modelo_id")
     private Modelo modelo;
     
-    /**
-     * Cada microcontrolador tem sua área de ação em apenas uma sala
-     * */
     @ManyToOne
     @JoinColumn(name="sala_id")
     private Sala sala;
@@ -38,9 +26,6 @@ public class Equipamento {
     @Size(max=30, message="A descrição deve conter no máximo 30 caracteres")
     private String descricao;
     
-    /**
-     * Um microcontrolador pode estar sujeito a vários agendamentos de comandoss
-     * */
     @ManyToMany(mappedBy="equipamentos", cascade=CascadeType.ALL)
     private List<Agenda> agendas;
     
@@ -48,8 +33,8 @@ public class Equipamento {
     	
     }
     
-    public Equipamento(EquipConnect mac) {
-    	this.macaddr = mac;
+    public Equipamento(Microcontrolador mac) {
+    	this.microcontrolador = mac;
     }
 
     public Long getId() {
@@ -93,11 +78,11 @@ public class Equipamento {
         this.descricao = descricao;
     }
     
-    public EquipConnect getMacaddr() {
-		return macaddr;
+    public Microcontrolador getMicrocontrolador() {
+		return microcontrolador;
 	}
 
-	public void setMacaddr(EquipConnect macaddr) {
-		this.macaddr = macaddr;
+	public void setMicrocontrolador(Microcontrolador microcontrolador) {
+		this.microcontrolador = microcontrolador;
 	}
 }

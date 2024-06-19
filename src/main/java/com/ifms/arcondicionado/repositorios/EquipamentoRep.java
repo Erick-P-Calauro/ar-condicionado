@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface EquipamentoRep extends JpaRepository<Equipamento, Long> {	
 	List<Equipamento> findBySala(Sala sala);
-	Optional<Equipamento> findByMacaddr(String macaddr);
+	Optional<Equipamento> findByMicrocontrolador(String macAddress);
 }

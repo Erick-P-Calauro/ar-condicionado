@@ -38,7 +38,7 @@ public class ExecutarComando {
         Comando comando = comandoService.buscarComando(idComando);
         
         // Definindo parâmetros da requisição
-        String ipParam = equipamento.getMacaddr().getIp();
+        String ipParam = equipamento.getMicrocontrolador().getIpv4();
         String modeloParam =equipamento.getModelo().getNome();
         String comandoParam = "";
 

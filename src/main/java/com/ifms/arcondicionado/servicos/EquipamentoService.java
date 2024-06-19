@@ -35,7 +35,7 @@ public class EquipamentoService {
 	}
 	
 	public Equipamento buscarEquipamentoMac(String mac) {
-		Optional<Equipamento> equipamento = repositorio.findByMacaddr(mac);
+		Optional<Equipamento> equipamento = repositorio.findByMicrocontrolador(mac);
         if(!equipamento.isPresent()) {
             return null;
         }else {
