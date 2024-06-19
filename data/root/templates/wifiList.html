@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem</title>
+</head>
+<body>
+    <h1>Listagem de WiFi</h1>
+    
+
+    <table>
+        <thead>
+            <th>SSID</th>
+            <th>Password</th>
+        </thead>
+        <tbody id="lista_tbody">
+
+        </tbody>
+    </table>
+
+    <script>
+        function atualizar() {
+            let xhttp = new XMLHttpRequest();
+            
+            // Adding tbody and wifi's
+            xhttp.onreadystatechange = function() {
+                if(xhttp.readyState == 4 && xhttp.status == 200) {
+                    let lista =  xhttp.responseText;
+                    
+                    if(true) {
+                        let linhas = lista.split('\n');
+                        let tbody = document.getElementById('lista_tbody');
+                        tbody.innerHTML = "";
+
+                        linhas.forEach((linha) => {
+                            let info = linha.split(",");
+                        
+                            if(info[0].trim() != "" || info[1].trim() != "") {
+                                let ssid = info[0];
+                                let password = info[1];
+
+                                let trBody = document.createElement('tr');
+                                let tdSSID = document.createElement('td');
+                                tdSSID.innerText = ssid;
+                                let tdPassword = document.createElement('td');
+                                tdPassword.innerText = password;
+
+                                trBody.appendChild(tdSSID);
+                                trBody.appendChild(tdPassword);
+
+                                tbody.appendChild(trBody);   
+                            }
+                        })
+                    }
+                }
+            }
+
+            let url = "/getwifilist";
+
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        atualizar();
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        li {
+            padding-bottom: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Cadastro de WiFi</h1>
+
+    <form method="GET">
+        <div>
+            <label>SSID</label>
+            <input type="text" id="ssid_param">
+        </div>
+
+        <div>
+            <label>Password</label>
+            <input type="text" id="password_param">
+        </div>
+
+        <button onclick="requisitar()">Enviar</button>
+        <button onclick="limpar()">Limpar</button>
+    </form>
+
+    <h2 style="margin-bottom: 0;">Redes Disponíveis</h2>
+    <ul id="rede" style="list-style: none;">
+
+    </ul>
+
+    <script>
+        function requisitar() {
+            let xhttp = new XMLHttpRequest();
+            let ssid = document.getElementById('ssid_param').value;
+            let password = document.getElementById('password_param').value;
+
+            xhttp.onreadystatechange = function (){
+                if(xhttp.readyState == 4 && xhttp.status == 200) {
+                    console.log("Funcionando!!!");
+                }
+            };
+
+            let url = "/define?ssid="+ssid+"&password="+password;
+
+            xhttp.open("GET", url  , true);
+            xhttp.send();
+
+            console.log("oi");
+        }
+
+        function wifiScan() {
+            let xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function (){
+                if(xhttp.readyState == 4 && xhttp.status == 200) {
+                    let resposta = xhttp.responseText;
+
+                    if(resposta.trim() != "") {
+                        resposta = resposta.split('\n');
+                        resposta.pop();
+                        resposta = resposta.sort();
+                        resposta = String(resposta).split(',');
+                        console.log(resposta);
+
+                        let nome= "";
+                        for(let x = 0; x < resposta.length; x++) {
+                            if(x%2 == 1) {
+                                nome = resposta[x];
+                                
+                                let name = document.createElement('li');
+                                name.innerText = nome;
+                                name.setAttribute('onclick', 'preencher(this)')
+
+                                document.getElementById('rede').appendChild(name);
+
+                                nome = "";
+                            }
+                        }
+
+                        document.getElementById('rede').style.display = "inline";
+                    }else {
+                        console.log("Algo deu errado...");
+                    }
+                }
+            };
+
+            let url = "/getwifiscan";
+
+            xhttp.open("GET", url, true);
+            xhttp.send();            
+        }
+
+        function preencher(element) {
+            const input = document.getElementById('ssid_param');
+            input.value = element.innerText;
+        }
+
+        function limpar() {
+            const input = document.getElementById('ssid_param');
+            input.value = "";
+        }
+
+        wifiScan();
+    </script>
+</body>
+</html>
