@@ -2,7 +2,6 @@ package com.ifms.arcondicionado.modelos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -11,10 +10,9 @@ public class Registro {
     @Id
     private Long id;
 
-    @ManyToOne
-    private Microcontrolador equipamento;
+    private String nome;
 
-    @Size(max=3000)
+    @Size(max=2000)
     private String conteudo;
 
     private String dataRegistro;
@@ -23,15 +21,15 @@ public class Registro {
 
     }
 
-    public Registro(Long id, Microcontrolador equipamento, String conteudo, String dataRegistro) {
+    public Registro(Long id, String nome, String conteudo, String dataRegistro) {
         this.id = id;
-        this.equipamento = equipamento;
+        this.nome = nome;
         this.conteudo = conteudo;
         this.dataRegistro = dataRegistro;
     }
 
-    public Registro(Microcontrolador equipamento, String conteudo, String dataRegistro) {
-        this.equipamento = equipamento;
+    public Registro(String nome, String conteudo, String dataRegistro) {
+        this.nome = nome;
         this.conteudo = conteudo;
         this.dataRegistro = dataRegistro;
     }
@@ -42,14 +40,6 @@ public class Registro {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Microcontrolador getEquipamento() {
-        return equipamento;
-    }
-
-    public void setEquipamento(Microcontrolador equipamento) {
-        this.equipamento = equipamento;
     }
 
     public String getConteudo() {
@@ -67,4 +57,14 @@ public class Registro {
     public void setDataRegistro(String dataRegistro) {
         this.dataRegistro = dataRegistro;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    
 }

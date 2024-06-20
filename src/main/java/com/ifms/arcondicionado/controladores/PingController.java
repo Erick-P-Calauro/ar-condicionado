@@ -22,10 +22,10 @@ public class PingController {
 		if(mac != null) {
 			mac.setIpv4(ipRecebido);
 			mac.setStatus(true);
-			macService.salvarEquipConnect(mac);
+			macService.salvar(mac);
 		}else {
 			mac = new Microcontrolador(macRecebido, ipRecebido, true);
-			macService.salvarEquipConnect(mac);
+			macService.salvar(mac);
 		}
 		
 		return "OK";

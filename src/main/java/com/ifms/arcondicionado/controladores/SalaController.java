@@ -47,7 +47,7 @@ public class SalaController {
 			// Ex: Bloco: A e Nome : 103 => Nome : A103
 			sala.setNome(sala.getBloco() + sala.getNome());
 
-	        if(salaService.salvarSala(sala) == null) {
+	        if(salaService.salvar(sala) == null) {
 				attributes.addFlashAttribute("mensagemSalaErro", "Esta sala já foi cadastrada.");
 	        	return "redirect:/cadastro/sala";
 			}
@@ -77,7 +77,7 @@ public class SalaController {
 	            return "redirect:/cadastro/sala";
 	        }
 
-	        salaService.salvarSala(sala);
+	        salaService.editar(salaService.buscarSala(id), sala);
 	        return "redirect:/cadastro/sala";
 	    }
 
@@ -90,7 +90,7 @@ public class SalaController {
 	            return "redirect:/cadastro/sala";
 	        }
 
-	        salaService.deletarSala(s);
+	        salaService.deletar(s);
 	        return "redirect:/cadastro/sala";
 	    }
 }

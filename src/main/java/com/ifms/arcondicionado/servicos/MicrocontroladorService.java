@@ -8,16 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.ifms.arcondicionado.modelos.Microcontrolador;
 import com.ifms.arcondicionado.repositorios.MicrocontroladorRep;
+import com.ifms.arcondicionado.servicos.Logger.LogObservator;
 
 @Service
-public class MicrocontroladorService {
+public class MicrocontroladorService extends LogObservator<Microcontrolador> {
 	
 	@Autowired
 	MicrocontroladorRep repositorio;
 	
-	public Microcontrolador salvarEquipConnect(Microcontrolador endereco) {
+	/*public Microcontrolador salvarEquipConnect(Microcontrolador endereco) {
 		return repositorio.save(endereco);
-	}
+	}*/
 	
 	public List<Microcontrolador> buscarEquipConnects() {
 		return repositorio.findAll();
@@ -33,9 +34,9 @@ public class MicrocontroladorService {
 		}
 	}
 	
-	public void deletarEquipConnect(String endereco) {
+	/*public void deletarEquipConnect(String endereco) {
 		Microcontrolador addr = buscarEquipConnect(endereco);
 		repositorio.delete(addr);
-	}
+	}*/
 
 }

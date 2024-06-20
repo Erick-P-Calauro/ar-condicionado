@@ -56,13 +56,15 @@ public class AgendaController {
 		}
 		
 		a.salvar(agenda);
+
+
 		return "redirect:/cadastro/agenda";
 		
 	}
 
 	@GetMapping("/apagarAgenda/{id}")
     public String apagarAgenda(@PathVariable("id") long id, Model model, RedirectAttributes rd) {
-        a.deletarAgenda(id);
+        a.deletar(a.buscarAgenda(id));
         return "redirect:/cadastro/agenda";
     }
 

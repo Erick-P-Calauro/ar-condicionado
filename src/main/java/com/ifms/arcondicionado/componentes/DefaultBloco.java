@@ -1,4 +1,4 @@
-package com.ifms.arcondicionado.components;
+package com.ifms.arcondicionado.componentes;
 
 import java.util.ArrayList;
 import java.util.List;

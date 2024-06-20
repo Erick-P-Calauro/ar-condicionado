@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.ifms.arcondicionado.modelos.Equipamento;
 import com.ifms.arcondicionado.repositorios.EquipamentoRep;
+import com.ifms.arcondicionado.servicos.Logger.LogObservator;
 
 @Service
-public class EquipamentoService {
+public class EquipamentoService extends LogObservator<Equipamento>{
 
 	@Autowired
 	EquipamentoRep repositorio;
@@ -21,9 +22,9 @@ public class EquipamentoService {
 		return repositorio.findAll(Sort.by("sala.bloco", "sala.nome"));
 	}
 	
-	public Equipamento salvarEquipamento(Equipamento equipamento) {
+	/*public Equipamento salvarEquipamento(Equipamento equipamento) {
 		return repositorio.save(equipamento);
-	}
+	}*/
 	
 	public Equipamento buscarEquipamento(Long id) {
 		Optional<Equipamento> equipamento = repositorio.findById(id);
@@ -43,9 +44,9 @@ public class EquipamentoService {
         }
 	}
 	
-	public void deletarEquipamento(Long id) {
+	/*public void deletarEquipamento(Long id) {
 		Equipamento e = buscarEquipamento(id);
         repositorio.delete(e);
-	}
+	}*/
 	
 }

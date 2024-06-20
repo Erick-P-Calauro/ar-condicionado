@@ -1,4 +1,4 @@
-package com.ifms.arcondicionado.components;
+package com.ifms.arcondicionado.componentes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -56,6 +56,7 @@ public class TimerComponent implements CommandLineRunner{
 				if(agenda.getDia() == info.get(0) && agenda.getDiaSemana() == -1) {
 					return true;
 				}
+
 				if((agenda.getDiaSemana() == info.get(3) || agenda.getDiaSemana() == 0) && agenda.getDia() == -1) {
 					return true;
 				}
@@ -149,7 +150,7 @@ public class TimerComponent implements CommandLineRunner{
 	public void resetarStatus() {
 		for(Microcontrolador i : macService.buscarEquipConnects()) {
 			i.setStatus(false);
-			macService.salvarEquipConnect(i);
+			macService.salvar(i);
 		}
 	}
 }

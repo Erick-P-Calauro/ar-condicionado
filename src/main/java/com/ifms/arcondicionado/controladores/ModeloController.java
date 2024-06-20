@@ -42,7 +42,7 @@ public class ModeloController {
             return "redirect:/cadastro/modelo";
         }
 
-        if(modeloService.salvarModelo(modelo) == null ) {
+        if(modeloService.salvar(modelo) == null ) {
             attributes.addFlashAttribute("mensagemModeloErro", "Este modelo já foi cadastrado.");
             return "redirect:/cadastro/modelo";
         }
@@ -72,7 +72,7 @@ public class ModeloController {
             return "redirect:/cadastro/modelo";
         }
 
-        modeloService.salvarModelo(modelo);
+        modeloService.editar(modeloService.buscarModelo(id), modelo);
         return "redirect:/cadastro/modelo";
     }
 
@@ -90,7 +90,7 @@ public class ModeloController {
             return "redirect:/cadastro/modelo";
         }
 
-        modeloService.deletarModelo(m);
+        modeloService.deletar(m);
         return "redirect:/cadastro/modelo";
     }
 }

@@ -5,6 +5,7 @@ import com.ifms.arcondicionado.modelos.Equipamento;
 import com.ifms.arcondicionado.servicos.ComandoService;
 import com.ifms.arcondicionado.servicos.EquipamentoService;
 import com.ifms.arcondicionado.servicos.ModeloService;
+import com.ifms.arcondicionado.servicos.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,9 @@ public class ExecutarComando {
     
     @Autowired
     ModeloService modeloService;
+
+    @Autowired
+    RegistroService registroService;
     
     @GetMapping("/executar")
     String executar(@RequestParam("equipamento") Long idEquipamento, @RequestParam("comando") Long idComando, Model model, RedirectAttributes rd) throws Exception {
@@ -63,7 +67,12 @@ public class ExecutarComando {
 
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         String corpoResponse = response.join().body();
-        System.out.println("\nResposta : " + corpoResponse);
+        int codigoResponse = response.join().statusCode();
+        
+        System.out.println("\nResposta : " + corpoResponse + " - "+ codigoResponse);
+
+        // Adicionando Log
+        registroService.adicionarRegistroComando(corpoResponse, codigoResponse, comandoParam);
 
         model.addAttribute("equipamentos", equipamentoService.buscarEquipamentos());
         return "redirect:/";

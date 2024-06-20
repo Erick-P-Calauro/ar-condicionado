@@ -1,4 +1,4 @@
-package com.ifms.arcondicionado.components;
+package com.ifms.arcondicionado.componentes;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class CarregadorTipoComando implements CommandLineRunner {
 			TipoComando tc = tcr.buscarTipoComandoNome(tipo);
 			if (tc == null) {
 				tc = new TipoComando(tipo);
-				tcr.salvarTipoComando(tc);
+				tcr.salvar(tc);
 			}
 		}
 	}

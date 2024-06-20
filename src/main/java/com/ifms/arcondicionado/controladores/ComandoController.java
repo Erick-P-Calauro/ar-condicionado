@@ -59,7 +59,7 @@ public class ComandoController {
 
         comando.setRaw(comando.getRaw().replaceAll("[^\\w,#]", ""));
         
-        comandoService.salvarComando(comando);
+        comandoService.salvar(comando);
         return "redirect:/cadastro/comando";
     }
 
@@ -89,13 +89,13 @@ public class ComandoController {
             return "pCadastroComando";
         }
 
-        comandoService.salvarComando(comando);
+        comandoService.editar(comandoService.buscarComando(id), comando);
         return "redirect:/cadastro/comando";
     }
 
     @GetMapping("/apagarComando/{id}")
     public String apagarComando(@PathVariable("id") long id, Model model) {
-    	comandoService.deletarEquipamento(id);
+    	comandoService.deletar(comandoService.buscarComando(id));
         return "redirect:/cadastro/comando";
     }
     

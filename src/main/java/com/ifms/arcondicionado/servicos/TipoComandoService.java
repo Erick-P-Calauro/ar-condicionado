@@ -5,12 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ifms.arcondicionado.components.DefaultTipoComando;
+import com.ifms.arcondicionado.componentes.DefaultTipoComando;
 import com.ifms.arcondicionado.modelos.TipoComando;
 import com.ifms.arcondicionado.repositorios.TipoComandoRep;
+import com.ifms.arcondicionado.servicos.Logger.LogObservator;
 
 @Service
-public class TipoComandoService {
+public class TipoComandoService extends LogObservator<TipoComando>{
 	
 	@Autowired
 	TipoComandoRep repositorio;
@@ -19,9 +20,9 @@ public class TipoComandoService {
 		return repositorio.findAll();
 	}
 	
-	public TipoComando salvarTipoComando(TipoComando tipoComando) {
+	/*public TipoComando salvarTipoComando(TipoComando tipoComando) {
 		return repositorio.save(tipoComando);
-	}
+	}*/
 	
 	public TipoComando buscarTipoComando(Long id) {
 		Optional<TipoComando> tipoComando = repositorio.findById(id);
@@ -42,10 +43,10 @@ public class TipoComandoService {
 	}
 	
 	// Buscar e deletar
-	public void deletarSala(Long id) {
+	/*public void deletarSala(Long id) {
 		TipoComando tipoComando = buscarTipoComando(id);
 		repositorio.delete(tipoComando);
-	}
+	}*/
 	
 	public List<String> buscarDefault() {
 		DefaultTipoComando dtc = new DefaultTipoComando();

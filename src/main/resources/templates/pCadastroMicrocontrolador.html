@@ -54,7 +54,7 @@
 									Editar
 								</a>
 								<a th:href="@{/cadastro/apagarEquipamento/{id}(id=${e.equipamento.id})}"
-									th:data-confirm-delete="|Você gostaria de apagar o equipamento ${equipamento.id}?|"
+									th:data-confirm-delete="|Você gostaria de apagar o equipamento ${e.equipamento.id}?|"
 									onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" class="btn btn-danger">Apagar
 								</a>
 							</td>
@@ -65,7 +65,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td th:if="${e.equipamento == null}">
-								<a class="btn-green" th:href="@{/cadastro/salvarEquipamento/{endereco}(endereco=${e.endereco})}">Cadastrar</a>
+								<a class="btn-green" th:href="@{/cadastro/salvarEquipamento/{endereco}(endereco=${e.macAddress})}">Cadastrar</a>
 							</td>
 						</div>
 					</tr>

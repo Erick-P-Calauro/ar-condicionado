@@ -59,7 +59,7 @@ public class EquipamentoController {
             return "pCadastroEquipamento";
         }
        
-        equipamentoService.salvarEquipamento(equipamento);
+        equipamentoService.salvar(equipamento);
         attributes.addFlashAttribute("mensagem", "Equipamento criado com sucesso.");
         return "redirect:/cadastro/equipamento";
     }
@@ -90,19 +90,19 @@ public class EquipamentoController {
             return "pCadastroEquipamento";
         }
 
-        equipamentoService.salvarEquipamento(equipamento);
+        equipamentoService.editar(equipamentoService.buscarEquipamento(id), equipamento);
         return "redirect:/cadastro/equipamento";
     }
 
     @GetMapping("/apagarEquipamento/{id}")
     public String apagarEquipamento(@PathVariable("id") Long id, Model model) {
-    	equipamentoService.deletarEquipamento(id);
+    	equipamentoService.deletar(equipamentoService.buscarEquipamento(id));
         return "redirect:/cadastro/equipamento";
     }
     
     @GetMapping("/apagarEquipConnect/{endereco}")
     public String apagarEquipConnect(@PathVariable("endereco") String endereco, Model model) {
-    	macAddrService.deletarEquipConnect(endereco);
+    	macAddrService.deletar(macAddrService.buscarEquipConnect(endereco));
         return "redirect:/cadastro/equipamento";
     }
 }

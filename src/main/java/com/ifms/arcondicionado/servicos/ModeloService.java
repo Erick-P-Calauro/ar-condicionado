@@ -6,27 +6,38 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import com.ifms.arcondicionado.modelos.Modelo;
 import com.ifms.arcondicionado.repositorios.ModeloRep;
+import com.ifms.arcondicionado.servicos.Logger.LogObservator;
 
 @Service
-public class ModeloService {
+public class ModeloService extends LogObservator<Modelo>{
 	
 	@Autowired
 	ModeloRep repositorio;
+
+	@Autowired
+	RegistroService logger;
+
+	@Autowired
+	ContentExtractor<Modelo> extractor;
 	
 	public List<Modelo> buscarModelos() {
 		return repositorio.findAll(Sort.by("nome"));
 	}
 	
-	public Modelo salvarModelo(Modelo modelo) {
+	@Override
+	public Modelo salvar(Modelo modelo) {
 		Optional<Modelo> m = repositorio.findByNome(modelo.getNome());
 
 		if(m.isPresent()) {
 			return null;
 		}
 		
-		return repositorio.save(modelo);
+		Modelo novoModelo = repositorio.save(modelo);
+		logger.adicionarRegistroCadastro("Modelo", extractor.extract(novoModelo));
+		return novoModelo;
 	}
 	
 	public Modelo buscarModelo(Long id) {
@@ -46,14 +57,4 @@ public class ModeloService {
             return modelo.get();
         }
 	}
-	
-	public void deletarModelo(Long id) {
-		Modelo modelo = buscarModelo(id);
-		repositorio.delete(modelo);
-	}
-	
-	public void deletarModelo(Modelo modelo) {
-		repositorio.delete(modelo);
-	}
-	
 }

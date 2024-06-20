@@ -1,7 +1,6 @@
 package com.ifms.arcondicionado.modelos;
 
 import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Agenda {
+public class Agenda{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

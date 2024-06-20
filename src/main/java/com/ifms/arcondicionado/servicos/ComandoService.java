@@ -5,12 +5,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import com.ifms.arcondicionado.modelos.Comando;
 import com.ifms.arcondicionado.modelos.Modelo;
 import com.ifms.arcondicionado.repositorios.ComandoRep;
+import com.ifms.arcondicionado.servicos.Logger.LogObservator;
 
 @Service
-public class ComandoService {
+public class ComandoService extends LogObservator<Comando>{
 	
 	@Autowired
 	ComandoRep repositorio;
@@ -19,9 +21,9 @@ public class ComandoService {
 		return repositorio.findAll(Sort.by("tipoComando.nome"));
 	}
 	
-	public Comando salvarComando(Comando comando) {
+	/*public Comando salvarComando(Comando comando) {
 		return repositorio.save(comando);
-	}
+	}*/
 	
 	public Comando buscarComando(Long id) {
 		Optional<Comando> comando = repositorio.findById(id);
@@ -50,9 +52,9 @@ public class ComandoService {
         }
 	}
 	
-	public void deletarEquipamento(Long id) {
+	/*public void deletarEquipamento(Long id) {
 		Comando c = buscarComando(id);
         repositorio.delete(c);
-	}
+	}*/
 	
 }

@@ -2,11 +2,10 @@ package com.ifms.arcondicionado.modelos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
-public class Modelo {
+public class Modelo{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +26,12 @@ public class Modelo {
     }
 
     public List<Comando> getComando() {
-        Collections.sort(comando, new java.util.Comparator<Comando>() {
+        /*Collections.sort(comando, new java.util.Comparator<Comando>() {
             @Override
             public int compare(Comando  c1, Comando  c2){
                 return c1.getTipoComando().getNome().compareTo(c2.getTipoComando().getNome());
             }
-        });
+        });*/
         
         return comando;
     }
