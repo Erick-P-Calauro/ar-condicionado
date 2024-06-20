@@ -5,9 +5,9 @@ void pingServer() {
   http.begin(wifiClient, urlServer);
   http.addHeader("content-type", "application/x-www-form-urlencoded");
 
-  String mac = WiFi.macAddress();
-  String ip = WiFi.localIP().toString();
-  String body = "mac="+mac+"&ip="+ip;
+  String macAddress = WiFi.macAddress();
+  String ipv4 = WiFi.localIP().toString();
+  String body = "mac="+macAddress+"&ip="+ipv4;
 
   int responseCode = http.POST(body);
   String responseText = http.getString();

@@ -77,26 +77,29 @@ void initServer() {
   });
 
   server.on("/command", HTTP_GET, [](AsyncWebServerRequest *request){
+    
     Serial.println("[Request] => /command");
     String comando = request->getParam("comando")->value();
     String modelo = request->getParam("modelo")->value();
-
+    Serial.print("[Request] => ");
+    Serial.print(comando);
     if(comando.length() < 50){
       int len = comando.length();
       uint64_t code = convertStringToU64 (comando);
-      Serial.print("Code: ");
-      Serial.println(code);
-      //irsend.sendLG(code, len*4);
+      
+      // addLog(code);
+      // irsend.sendLG(code, len*4);
     } else {
       int n = countNumbers(comando);
       Serial.printf("Tamanho Raw: %d\n", n);
       uint16_t rawData[n];
       convertStringVector(comando, rawData);
-      Serial.print("Deu bom");
-      //irsend.sendRaw(rawData, n, 38000); //Valor correto é 38000 hz
+      
+      // addLog(rawData);
+      // irsend.sendRaw(rawData, n, 38000); //Valor correto é 38000 hz
     }
 
-    request->send(200, "text/plain", "recebido");
+    request->send(200, "text/plain", WiFi.macAddress() );
   });
 
   server.on("/getwifiscan", HTTP_GET, [](AsyncWebServerRequest *request){

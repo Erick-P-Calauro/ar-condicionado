@@ -11,7 +11,7 @@ HTTPClient http;
 
 static String wifiSSID;
 static String wifiPassword;
-static String urlServer = "http://192.168.1.13:8080/ping";
+static String urlServer = "http://192.168.1.31:8080/ping";
 static String availableNetworks = "";
 
 // 0 => dirError => Restart LittleFS
