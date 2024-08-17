@@ -18,7 +18,7 @@ public class Modelo{
     @OneToMany(mappedBy = "modelo", cascade = CascadeType.ALL)
     private List<Equipamento> equipamento_modelo;
 
-    @OneToMany(mappedBy = "modelo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "modelo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comando> comando;
 
     public Long getId() {

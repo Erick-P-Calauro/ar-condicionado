@@ -1,15 +1,23 @@
 package com.ifms.arcondicionado.componentes;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.ifms.arcondicionado.modelos.Agenda;
+import com.ifms.arcondicionado.modelos.Comando;
+import com.ifms.arcondicionado.modelos.Equipamento;
 import com.ifms.arcondicionado.modelos.Microcontrolador;
 import com.ifms.arcondicionado.servicos.AgendaService;
 import com.ifms.arcondicionado.servicos.MicrocontroladorService;
@@ -31,12 +39,11 @@ public class TimerComponent implements CommandLineRunner{
 		// Timer Component
 		Timer timer = new Timer();
 		
-		// Faltar completar o agendamento de comandos
 		TimerTask tarefa = new TimerTask() {			
 			@Override
             public void run() {
-				resetarStatus();
 				agendar();
+				resetarStatus();
             }
         };
         
@@ -49,15 +56,18 @@ public class TimerComponent implements CommandLineRunner{
 		List<Integer> info = informarDataHora();
 		
 		if(agenda.getAtivo() == true) {
-			// Ativo
+
 			if(agenda.getHora() == info.get(1) && agenda.getMinuto() == info.get(2)) {
-				// Mesma hora e minuto
-				
+
 				if(agenda.getDia() == info.get(0) && agenda.getDiaSemana() == -1) {
 					return true;
 				}
 
 				if((agenda.getDiaSemana() == info.get(3) || agenda.getDiaSemana() == 0) && agenda.getDia() == -1) {
+					return true;
+				}
+
+				if(agenda.getDia() == 0 || agenda.getDiaSemana() == 0) {
 					return true;
 				}
 			}
@@ -103,6 +113,8 @@ public class TimerComponent implements CommandLineRunner{
 		}
 		
 		ArrayList<Integer> info = new ArrayList<Integer>();
+
+		//System.out.print(data + " " + hora + " " + minuto + " " + diaSemanaInt);
 		
 		info.add(data);
 		info.add(hora);
@@ -122,27 +134,66 @@ public class TimerComponent implements CommandLineRunner{
 		for(Agenda agenda : agendas) {
 			
 			boolean result = verificarAgenda(agenda);
-			
 			System.out.println("\n" + agenda.getDescricao() + "\n" + result);
 			
+			// Caso alguma agenda deva ser executada
 			if(result == true) {
-				
-				/*for(Equipamento e : agenda.getEquipamentos()) {
-					Modelo m = e.getModelo();
-					String url = "http://"+e.getIp()+"/comandos?comando="+agenda.getTipoComando().getNome()+"&modelo="+m.getNome();
-					
-					HttpClient client = HttpClient.newBuilder()
-		                        .build();
+				System.out.print("Começou a executar...");
 
-					try {
-						HttpRequest request = HttpRequest.newBuilder()
-							            .uri(new URI(url))
-							                    .build();
-					} catch (URISyntaxException e1) {
-						System.out.println(e1.toString());
+				// Executar passo a passo para cada comando
+				for(int x = 0; x < agenda.getEquipamentos().size(); x++) {
+					// Passo a passo : 
+						// IPV4 Do Equipamento
+						// Comando correspondente ao tipo do comando da agenda
+						// Modelo do equipamento
+						// Montar Url
+						// Executar Comando
+						// Receber resposta
+						// Gerar Log
+
+					Equipamento equipamento = agenda.getEquipamentos().get(x);
+					String ipv4 = equipamento.getMicrocontrolador().getIpv4();
+					Comando comando = null;
+					
+					for(int i = 0; i < equipamento.getModelo().getComando().size(); i++) {
+						Comando comandoTeste = equipamento.getModelo().getComando().get(i);
+
+						if(comandoTeste.getTipoComando() == agenda.getTipoComando()) {
+							comando = comandoTeste;
+							break;
+						}
 					}
-					System.out.print(url);
-				}*/
+
+					if(comando == null) {
+						System.out.println(equipamento.getId() + "não apresenta comando do tipo necessário.");
+					}else {
+						String comandoParam;
+						
+						if(comando.getRaw().isEmpty()) {
+							comandoParam = comando.getHexadecimal();
+						}else {
+							comandoParam = comando.getRaw();
+						}
+
+						try {
+							HttpClient client = HttpClient.newBuilder().build();
+
+							HttpRequest request = HttpRequest.newBuilder()
+											.uri(new URI("http://"+ipv4+"/command?comando="+comandoParam+"&modelo="+equipamento.getModelo().getNome()))
+													.build();
+							System.out.print("\nRequisição de "+ equipamento.getId() +" lançada, aguardando resposta...");
+
+							CompletableFuture<HttpResponse<String>> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+							String corpoResponse = response.join().body();
+							int codigoResponse = response.join().statusCode();
+							
+							System.out.println("\nResposta : " + corpoResponse + " - "+ codigoResponse);
+
+						} catch (Exception e ) {
+							System.out.println("\nRequisição de " + equipamento.getId() + " apresentou erro.");
+						} 
+					}
+				}
 			}
 		}
 	}
