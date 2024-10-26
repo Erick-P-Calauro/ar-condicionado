@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ifms.arcondicionado.modelos.Modelo;
 import com.ifms.arcondicionado.repositorios.ModeloRep;
+import com.ifms.arcondicionado.servicos.Logger.ContentExtractor;
 import com.ifms.arcondicionado.servicos.Logger.LogObservator;
 
 @Service

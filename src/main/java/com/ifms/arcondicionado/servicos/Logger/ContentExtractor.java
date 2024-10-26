@@ -1,4 +1,4 @@
-package com.ifms.arcondicionado.servicos;
+package com.ifms.arcondicionado.servicos.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

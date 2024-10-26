@@ -6,7 +6,7 @@ import java.util.List;
 // M = Modulares
 public class DefaultBloco {
 	enum blocos {
-		A,B,C,D,E,M;
+		A,B,C,D,E,F,M;
 	}
 	
 	public List<String> getBlocos() {

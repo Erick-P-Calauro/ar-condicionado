@@ -15,7 +15,7 @@ public class Comando {
 	@NotBlank(message="O nome não pode ser nulo.")
     private String nome;
 
-    @ManyToOne
+    @ManyToOne 
     private TipoComando tipoComando;
 
     @Size(max=1500, message="O comando raw deve conter no máximo 1500 caracteres.")
@@ -24,7 +24,7 @@ public class Comando {
 	@Size(max=49, message="O comando hexadecimal deve conter no máximo 49 caracteres.")
     private String hexadecimal;
 	
-    @ManyToOne
+    @ManyToOne 
     @JoinColumn(name="modelo_id")
     private Modelo modelo;
 

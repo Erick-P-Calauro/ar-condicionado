@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DefaultTipoComando {
 	enum tipoComando {
-		L20,L21,L22,L23,L24,L25,OFF;
+		L20,L21,L22,L23,L24,L25,ON,OFF;
 	}
 	
 	public List<String> getTiposComando() {

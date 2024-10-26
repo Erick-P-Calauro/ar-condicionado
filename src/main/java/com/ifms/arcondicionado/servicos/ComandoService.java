@@ -52,7 +52,7 @@ public class ComandoService extends LogObservator<Comando>{
         }
 	}
 	
-	/*public void deletarEquipamento(Long id) {
+	/*public void deletar(Long id) {
 		Comando c = buscarComando(id);
         repositorio.delete(c);
 	}*/

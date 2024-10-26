@@ -1,5 +1,7 @@
 package com.ifms.arcondicionado.controladores;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ifms.arcondicionado.modelos.Comando;
+import com.ifms.arcondicionado.modelos.Modelo;
+import com.ifms.arcondicionado.modelos.TipoComando;
 import com.ifms.arcondicionado.servicos.ComandoService;
 import com.ifms.arcondicionado.servicos.ModeloService;
 import com.ifms.arcondicionado.servicos.TipoComandoService;
@@ -38,10 +42,10 @@ public class ComandoController {
         model.addAttribute("tiposComando", tipoComandoService.buscarTiposComando());
         return "pCadastroComando";
     }
-    
-	/* Alterar cadastro de comando para comportar tipoComando */
+
     @PostMapping("/salvarComando")
     String salvarComando(@Valid Comando comando, BindingResult result, RedirectAttributes attributes, Model model) {
+        
         if(result.hasErrors()) {
             model.addAttribute("comandos", comandoService.buscarComandos());
             model.addAttribute("modelos", modeloService.buscarModelos());
@@ -77,9 +81,9 @@ public class ComandoController {
         return "pCadastroComando";
     }
 
-    @Transactional
     @PostMapping("/editarComando/{id}")
     String editarComandoPost(@PathVariable("id") long id, @Valid Comando comando, BindingResult result, Model model) {
+        
         if(result.hasErrors()) {
             comando.setId(id);
             model.addAttribute("comando", comando);
@@ -95,7 +99,31 @@ public class ComandoController {
 
     @GetMapping("/apagarComando/{id}")
     public String apagarComando(@PathVariable("id") long id, Model model) {
-    	comandoService.deletar(comandoService.buscarComando(id));
+        
+        // Buscando entidades
+        Comando comandoParaDeletar = comandoService.buscarComando(id);
+        Modelo modelo = comandoParaDeletar.getModelo();
+        TipoComando tipoComando = comandoParaDeletar.getTipoComando();
+        
+        // Extraindo listas 
+        List<Comando> comandosModelo = modelo.getComando();
+        List<Comando> comandosTipoComando = tipoComando.getComandos();
+
+        // Excluindo manualmente o comando das listas de relacionamento
+        comandosModelo.remove(comandoParaDeletar);
+        comandosTipoComando.remove(comandoParaDeletar);
+        modelo.setComando(comandosModelo);
+        tipoComando.setComandos(comandosTipoComando);
+
+        // Excluindo modelo e tipoComando do Comando
+        comandoParaDeletar.setModelo(null);
+        comandoParaDeletar.setTipoComando(null);
+        
+        // Executando todas as instruções pertinentes para excluir corretamente
+        modeloService.editar(modeloService.buscarModelo(modelo.getId()), modelo);
+        tipoComandoService.editar(tipoComandoService.buscarTipoComando(tipoComando.getUid()), tipoComando);
+        comandoService.deletar(comandoParaDeletar);
+    
         return "redirect:/cadastro/comando";
     }
     

@@ -50,11 +50,13 @@ public class ExecutarComando {
         	return "redirect:/";
         }
         
-        if(comando.getRaw() == null) {
+        if(comando.getRaw().isEmpty()) {
         	comandoParam = comando.getHexadecimal();
         }else {
         	comandoParam = comando.getRaw();
         }
+
+        System.out.print("COMANDO PARAM => "+ comandoParam);
  
         HttpClient client = HttpClient.newBuilder()
                         .build();
@@ -73,7 +75,6 @@ public class ExecutarComando {
 
         // Adicionando Log
         registroService.adicionarRegistroComando(corpoResponse, codigoResponse, comandoParam);
-
         model.addAttribute("equipamentos", equipamentoService.buscarEquipamentos());
         return "redirect:/";
     }

@@ -2,7 +2,7 @@ package com.ifms.arcondicionado.servicos.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.ifms.arcondicionado.servicos.ContentExtractor;
+
 import com.ifms.arcondicionado.servicos.RegistroService;
 
 public abstract class LogObservator<E> {
