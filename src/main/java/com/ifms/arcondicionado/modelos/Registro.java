@@ -12,7 +12,7 @@ public class Registro {
 
     private String nome;
 
-    @Size(max=2000)
+    @Size(max=3600)
     private String conteudo;
 
     private String dataRegistro;
